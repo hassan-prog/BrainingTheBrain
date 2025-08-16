@@ -1,6 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInputHandler), typeof(PlayerMovement), typeof(PlayerAbilities))]
+[RequireComponent(typeof(PlayerInputHandler), typeof(PlayerMovement))]
+[RequireComponent(typeof(PlayerRenderer), typeof(PlayerAbilities))]
 public class PlayerController : MonoBehaviour
 {
     private PlayerInputHandler _playerInputHandler;

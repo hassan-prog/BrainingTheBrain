@@ -8,12 +8,20 @@ public class PlayerAbilities : MonoBehaviour
 
     private PlayerInputHandler _playerInputhandler;
     private PlayerRenderer _playerRenderer;
+    private InvisibleAbility _invisibility;
+
     public AbilityBase ActiveAbility { get; private set; }
 
-    public void Init(PlayerInputHandler playerInputHandler, PlayerRenderer renderer)
+    private void Awake()
     {
-        _playerInputhandler = playerInputHandler;
-        _playerRenderer = renderer;
+        _invisibility = new InvisibleAbility();
+        _abilities = new List<AbilityBase>();
+
+    }
+
+    private void Start()
+    {
+        _abilities.Add(_invisibility);
     }
 
     private void OnEnable()
@@ -24,6 +32,12 @@ public class PlayerAbilities : MonoBehaviour
     private void OnDisable()
     {
         _playerInputhandler.OnAbilityUse -= PerformAbility;
+    }
+
+    public void Init(PlayerInputHandler playerInputHandler, PlayerRenderer renderer)
+    {
+        _playerInputhandler = playerInputHandler;
+        _playerRenderer = renderer;
     }
 
     public void PerformAbility(AbilityType type)

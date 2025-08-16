@@ -6,7 +6,7 @@ public enum AbilityType
     Shield = 1
 }
 
-public abstract class AbilityBase : ScriptableObject
+public abstract class AbilityBase
 {
     public abstract float CooldownTimer { get; set; }
     public abstract float Cooldown { get; }

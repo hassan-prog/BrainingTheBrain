@@ -182,6 +182,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""9489ba63-967d-40ff-80a3-f0157b9de446"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -193,6 +202,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""invisibility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85525663-064d-491d-a629-6fc8a5bfe030"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -208,6 +228,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         // PlayerAbilities
         m_PlayerAbilities = asset.FindActionMap("PlayerAbilities", throwIfNotFound: true);
         m_PlayerAbilities_invisibility = m_PlayerAbilities.FindAction("invisibility", throwIfNotFound: true);
+        m_PlayerAbilities_Attack = m_PlayerAbilities.FindAction("Attack", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -330,11 +351,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerAbilities;
     private List<IPlayerAbilitiesActions> m_PlayerAbilitiesActionsCallbackInterfaces = new List<IPlayerAbilitiesActions>();
     private readonly InputAction m_PlayerAbilities_invisibility;
+    private readonly InputAction m_PlayerAbilities_Attack;
     public struct PlayerAbilitiesActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerAbilitiesActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @invisibility => m_Wrapper.m_PlayerAbilities_invisibility;
+        public InputAction @Attack => m_Wrapper.m_PlayerAbilities_Attack;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAbilities; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -347,6 +370,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @invisibility.started += instance.OnInvisibility;
             @invisibility.performed += instance.OnInvisibility;
             @invisibility.canceled += instance.OnInvisibility;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
         }
 
         private void UnregisterCallbacks(IPlayerAbilitiesActions instance)
@@ -354,6 +380,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @invisibility.started -= instance.OnInvisibility;
             @invisibility.performed -= instance.OnInvisibility;
             @invisibility.canceled -= instance.OnInvisibility;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
         }
 
         public void RemoveCallbacks(IPlayerAbilitiesActions instance)
@@ -379,5 +408,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     public interface IPlayerAbilitiesActions
     {
         void OnInvisibility(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
     }
 }

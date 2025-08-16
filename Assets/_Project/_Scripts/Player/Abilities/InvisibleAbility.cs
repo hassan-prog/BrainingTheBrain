@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 
 [CreateAssetMenu(fileName = "Ability", menuName = "Abilities/Invisible")]
-public class Invisible : AbilityBase
+public class InvisibleAbility : AbilityBase
 {
     private bool _isOnCoolDown;
     private bool _isActive;
