@@ -6,22 +6,21 @@ public class PlayerController : MonoBehaviour
     private PlayerInputHandler _playerInputHandler;
     private PlayerMovement _playerMovement;
     private PlayerAbilities _playerAbilities;
-    private PlayerStateMachine _playerStateMachine;
+    private PlayerRenderer _playerRenderer;
 
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
         _playerInputHandler = GetComponent<PlayerInputHandler>();
         _playerAbilities = GetComponent<PlayerAbilities>();
-        _playerStateMachine = GetComponent<PlayerStateMachine>();
+        _playerRenderer = GetComponent<PlayerRenderer>();
 
         Init();
     }
 
     private void Init()
     {
-        _playerAbilities.Init(_playerInputHandler);
+        _playerAbilities.Init(_playerInputHandler, _playerRenderer);
         _playerMovement.Init(_playerInputHandler);
-        _playerStateMachine.Init(_playerAbilities, _playerMovement, _playerInputHandler);
     }
 }

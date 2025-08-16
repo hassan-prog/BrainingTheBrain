@@ -19,21 +19,17 @@ public class Invisible : AbilityBase
     public override bool IsActive => _isActive;
     public override AbilityType AbilityType => _abilityType;    
 
-    public override AbilityBase ActivateAbility(GameObject go)
+    public override AbilityBase ActivateAbility()
     {
         if (_isActive) {
-            return DeactivateAbility(go); 
+            return DeactivateAbility(); 
         }
-        go.GetComponent<Renderer>().material.SetFloat("_Alpha", 0.25f);
-        go.GetComponent<Renderer>().shadowCastingMode = ShadowCastingMode.Off;
         _isActive = true;
         return this;
     }
 
-    public override AbilityBase DeactivateAbility(GameObject go)
+    public override AbilityBase DeactivateAbility()
     {
-        go.GetComponent<Renderer>().material.SetFloat("_Alpha", 1);
-        go.GetComponent<Renderer>().shadowCastingMode = ShadowCastingMode.On;
         _isActive = false;
         return null;
     }

@@ -14,8 +14,8 @@ public abstract class AbilityBase : ScriptableObject
     public abstract bool IsOnCooldown { get; }
     public abstract bool IsActive { get; }
     public abstract AbilityType AbilityType { get; }
-    public abstract AbilityBase ActivateAbility(GameObject go);
-    public abstract AbilityBase DeactivateAbility(GameObject go);
+    public abstract AbilityBase ActivateAbility();
+    public abstract AbilityBase DeactivateAbility();
     public abstract void StartCooldown();
     public abstract void ResetCooldown();
 }

@@ -7,11 +7,13 @@ public class PlayerAbilities : MonoBehaviour
     [SerializeField] private List<AbilityBase> _abilities;
 
     private PlayerInputHandler _playerInputhandler;
+    private PlayerRenderer _playerRenderer;
     public AbilityBase ActiveAbility { get; private set; }
 
-    public void Init(PlayerInputHandler playerInputHandler)
+    public void Init(PlayerInputHandler playerInputHandler, PlayerRenderer renderer)
     {
         _playerInputhandler = playerInputHandler;
+        _playerRenderer = renderer;
     }
 
     private void OnEnable()
@@ -26,14 +28,20 @@ public class PlayerAbilities : MonoBehaviour
 
     public void PerformAbility(AbilityType type)
     {
-        ActiveAbility = _abilities.FirstOrDefault(x => x.AbilityType == type)?.ActivateAbility(gameObject);
+        ActiveAbility = _abilities.FirstOrDefault(x => x.AbilityType == type)?.ActivateAbility();
+
         if (ActiveAbility != null
             && ActiveAbility.AbilityType == AbilityType.Invisibility
             && ActiveAbility.IsActive)
         {
             PlayerProperties.IsInvisible = true;
+            _playerRenderer.SetVisibility(1);
         }
-        else PlayerProperties.IsInvisible = false;
+        else
+        {
+            PlayerProperties.IsInvisible = false;
+            _playerRenderer.SetVisibility(0.25f);
+        } 
     }
 }
 
