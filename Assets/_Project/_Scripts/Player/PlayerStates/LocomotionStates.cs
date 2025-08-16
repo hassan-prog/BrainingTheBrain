@@ -15,17 +15,10 @@ public class PlayerMovingState : PlayerState
 
     public override void Update()
     {
-        if (_playerStateMachine.PlayerMovement.PlayerAbilities != null 
-            && !_playerStateMachine.PlayerMovement.PlayerAbilities.IsInvisible)
-        {
-            _playerStateMachine.PlayerMovement.MovePlayer(_playerStateMachine.PlayerMovement.PlayerMovementSettings.MoveSpeed);
-        }
-        else
-        {
-            _playerStateMachine.PlayerMovement.MovePlayer(_playerStateMachine.PlayerMovement.PlayerMovementSettings.InvisibleMoveSpeed);
-        }
+        _playerStateMachine.PlayerMovement.MovePlayer();
 
-        if (_playerStateMachine.PlayerInputHandler.MovementInput.magnitude <= 0)
+        if (_playerStateMachine.PlayerInputHandler.MovementInput.magnitude <= 0 
+            && !PlayerProperties.IsJumping)
         {
             _playerStateMachine.LocomotionStateMachine.ChangeState(_playerStateMachine.PlayerIdleState);
         }

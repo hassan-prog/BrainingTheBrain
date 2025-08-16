@@ -8,18 +8,16 @@ public class PlayerMovement : MonoBehaviour
 
     private CharacterController _characterController;
     private PlayerInputHandler _playerInputHandler;
-    private PlayerAbilities _abilities;
     private Vector3 _movement, _velocity;
     private bool _isGrounded;
     private float _verticalVelocity, _stickVelocity = -1f, _gravity = -9.81f;
 
     public PlayerMovementSettings PlayerMovementSettings => _playerMovementSettings;
-    public PlayerAbilities PlayerAbilities => _abilities;
+    public bool IsGrounded => _isGrounded;
 
-    public void Init(PlayerInputHandler playerInputHandler, PlayerAbilities playerAbilities)
+    public void Init(PlayerInputHandler playerInputHandler)
     {
         _playerInputHandler = playerInputHandler;
-        _abilities = playerAbilities;
     }
 
     private void Awake()
@@ -38,11 +36,21 @@ public class PlayerMovement : MonoBehaviour
     {
         _playerInputHandler.OnJump -= Jump;
     }
-    
-    public void MovePlayer(float moveSpeed)
+
+    private void Update()
+    {
+        
+    }
+
+    public void MovePlayer()
     {
         _movement.x = _playerInputHandler.MovementInput.x;
         _movement.z = _playerInputHandler.MovementInput.y;
+
+        float moveSpeed = 0f;
+
+        if (!PlayerProperties.IsInvisible) moveSpeed = _playerMovementSettings.MoveSpeed;
+        else if(PlayerProperties.IsInvisible) moveSpeed = _playerMovementSettings.InvisibleMoveSpeed;
 
         _velocity = _movement * moveSpeed;
 
@@ -54,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         _velocity.y = _verticalVelocity;
         _characterController.Move(Time.deltaTime * _velocity);
         _isGrounded = _characterController.isGrounded;
+        PlayerProperties.IsJumping = !_isGrounded;
     }
 
     private void Jump()
@@ -61,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded) {
             _verticalVelocity = MathF.Sqrt(-2f * _gravity * _playerMovementSettings.JumpHeight);
             _isGrounded = false;
+            PlayerProperties.IsJumping = true;
         }
     }
 }

@@ -8,21 +8,16 @@ public class PlayerInvisibleState : PlayerState
 
     public override void Enter()
     {
-        //_playerStateMachine.PlayerAbilities.ActiveAbility.StartCooldown();
-        _playerStateMachine.PlayerAbilities.PerformAbility(AbilityType.Invisibility);
-        Debug.Log("Enter Invisible State");
     }
 
     public override void Exit()
     {
-        _playerStateMachine.PlayerAbilities.DeactivateAbility(AbilityType.Invisibility);
-        Debug.Log("Exit Invisible State");
-
     }
 
     public override void Update()
     {
-        
+        if(!PlayerProperties.IsInvisible) 
+            _playerStateMachine.AbilityStateMachine.ChangeState(_playerStateMachine.PlayerNoneState);
     }
 }
 public class PlayerNoneState : PlayerState
@@ -41,5 +36,7 @@ public class PlayerNoneState : PlayerState
 
     public override void Update()
     {
+        if (PlayerProperties.IsInvisible) 
+            _playerStateMachine.AbilityStateMachine.ChangeState(_playerStateMachine.PlayerInvisibleState);
     }
 }

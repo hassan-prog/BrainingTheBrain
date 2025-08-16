@@ -52,7 +52,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerInputHandler.OnAbilityUse += HandleAbilityUse;
         _playerInputHandler.HandleMovement += HandleMovement;
     }
 
@@ -63,14 +62,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnDisable()
     {
-        _playerInputHandler.OnAbilityUse -= HandleAbilityUse;
         _playerInputHandler.HandleMovement -= HandleMovement;
 
-    }
-
-    private void HandleAbilityUse(AbilityType type)
-    {
-        if (!PlayerAbilities.IsInvisible) _abilityStateMachine.ChangeState(PlayerInvisibleState);
-        else _abilityStateMachine.ChangeState(PlayerNoneState);
     }
 }
